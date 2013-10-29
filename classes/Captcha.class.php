@@ -1,5 +1,5 @@
 <?php
-class captcha {
+class Captcha {
 	private $image;
 
 	function __construct($path) {
