@@ -1,5 +1,5 @@
 <?php
-class image {
+class Image {
 	private $path;
 	private $resource;
 	private $data;

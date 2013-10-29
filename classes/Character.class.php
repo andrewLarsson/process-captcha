@@ -1,5 +1,5 @@
 <?php
-class character {
+class Character {
 	private $sample;
 
 	function __construct($sample) {

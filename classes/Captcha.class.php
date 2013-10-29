@@ -3,7 +3,7 @@ class captcha {
 	private $image;
 
 	function __construct($path) {
-		$this->image = new image($path);
+		$this->image = new Image($path);
 	}
 
 	public function getText() {
