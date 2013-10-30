@@ -3,26 +3,14 @@ class Captcha {
 	private $image;
 	private $filter;
 	private $characters;
-	public $text;
 
 	function __construct($imagePath, $charactersPath) {
 		$this->image = new Image($imagePath);
 		$this->filter = $this->image[0][0];
 		$this->characters = $this->getCharacters($charactersPath);
-		$this->text = $this->getText($this->characters);
 	}
 
-	private function getCharacters($path) {
-		$characters = [];
-		foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path)) as $file) {
-			if(!$file->isDir()) {
-				$characters[$file->getBasename($file->getExtension())] = new Image($file->getPathname(), $this->filter);
-			}
-		}
-		return $characters;
-	}
-
-	private function getText() {
+	public function getText() {
 		$text = "";
 		foreach($this->image as $x => $column) {
 			$sample = [];
@@ -38,6 +26,16 @@ class Captcha {
 			}
 		}
 		return $text;
+	}
+
+	private function getCharacters($path) {
+		$characters = [];
+		foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path)) as $file) {
+			if(!$file->isDir()) {
+				$characters[$file->getBasename($file->getExtension())] = new Image($file->getPathname(), $this->filter);
+			}
+		}
+		return $characters;
 	}
 }
 ?>
