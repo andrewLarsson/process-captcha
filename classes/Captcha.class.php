@@ -41,7 +41,7 @@ class Captcha {
 		$characters = [];
 		foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path)) as $file) {
 			if(!$file->isDir()) {
-				$characters[$file->getBasename("." . $file->getExtension())] = new Image($file->getPathname(), $this->filter);
+				$characters[$file->getBasename("." . $file->getExtension())] = new Image($file->getPathname());
 			}
 		}
 		return $characters;
