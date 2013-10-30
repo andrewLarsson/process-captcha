@@ -1,5 +1,5 @@
 <?php
-class Image {
+class Image implements ArrayAccess{
 	private $path;
 	private $resource;
 	private $data;
@@ -9,9 +9,25 @@ class Image {
 		$this->resource = imagecreatefrompng($this->path);
 		$this->data = resourceToData($this->resource);
 	}
-
-	public function getData() {
-		return $this->data;
+	
+	public function offsetSet($offset, $value) {
+		return NULL;
+	}
+	
+	public function offsetExists($offset) {
+		return isset($this->data[$offset]);
+	}
+	
+	public function offsetUnset($offset) {
+		return NULL;
+	}
+	
+	public function offsetGet($offset) {
+		return (
+			(isset($this->data[$offset]))
+				? $this->data[$offset]
+				: NULL
+		);
 	}
 
 	private function resourceToData($image) {
