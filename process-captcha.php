@@ -18,7 +18,7 @@ if(array_key_exists("f", $arguments)) {
 	print(
 		"Analyzes and processes simple captchas.\n" .
 		"Copyright 2013 developersBliss.com\n\n" .
-		"Usage: php process-captcha.php -f <path_to_captcha_image> -c <path_to_character_files>\n"
+		"Usage: php process-captcha.php -f <path_to_captcha_image> [-c <path_to_character_files>]\n"
 	);
 }
 ?>
