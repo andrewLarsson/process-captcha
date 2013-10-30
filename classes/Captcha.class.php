@@ -1,12 +1,14 @@
 <?php
 class Captcha {
 	private $image;
+	public $text;
 
 	function __construct($path) {
 		$this->image = new Image($path);
+		$this->text = $this->getText();
 	}
 
-	public function getText() {
+	private function getText() {
 
 	}
 
