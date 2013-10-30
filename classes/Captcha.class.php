@@ -11,7 +11,7 @@ class Captcha {
 		$this->characters = $this->getCharacters($charactersPath);
 		$this->text = $this->getText($this->characters);
 	}
-	
+
 	private function getCharacters($path) {
 		$characters = [];
 		foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path)) as $file) {
