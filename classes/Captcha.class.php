@@ -12,15 +12,24 @@ class Captcha {
 
 	public function getText() {
 		$text = "";
-		foreach($this->image as $x => $column) {
+		foreach($this->characters as $name => $character) {
+			$segment = [];
+			foreach($character[0] as $seedling) {
+				if($seedling != $this->filter) {
+					$segment[] = $seedling;
+				}
+			}
+			$seeds[$name] = $segment;
+		}
+		foreach($this->image as $column) {
 			$sample = [];
-			foreach($column as $y => $pixel) {
+			foreach($column as $pixel) {
 				if($pixel != $this->filter) {
 					$sample[] = $pixel;
 				}
 			}
-			foreach($this->characters as $name => $character) {
-				if($character == $sample) {
+			foreach($seeds as $name => $seed) {
+				if($seed == $sample) {
 					$text .= $name;
 				}
 			}
@@ -32,7 +41,7 @@ class Captcha {
 		$characters = [];
 		foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path)) as $file) {
 			if(!$file->isDir()) {
-				$characters[$file->getBasename($file->getExtension())] = new Image($file->getPathname(), $this->filter);
+				$characters[$file->getBasename("." . $file->getExtension())] = new Image($file->getPathname(), $this->filter);
 			}
 		}
 		return $characters;

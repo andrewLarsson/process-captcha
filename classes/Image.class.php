@@ -1,13 +1,15 @@
 <?php
-class Image implements ArrayAccess{
+class Image implements ArrayAccess, Iterator {
+	private $pointer;
 	private $path;
 	private $resource;
 	private $data;
 
-	function __construct($path, $filter = NULL) {
+	function __construct($path) {
+		$this->pointer = 0;
 		$this->path = $path;
 		$this->resource = imagecreatefrompng($this->path);
-		$this->data = resourceToData($this->resource, $filter);
+		$this->data = $this->resourceToData($this->resource);
 	}
 
 	public function offsetSet($offset, $value) {
@@ -30,14 +32,32 @@ class Image implements ArrayAccess{
 		);
 	}
 
-	private function resourceToData($image, $filter) {
+	public function key() {
+		return $this->pointer;
+	}
+
+	public function current() {
+		return $this->data[$this->pointer];
+	}
+
+	public function next() {
+		++ $this->pointer;
+	}
+
+	public function rewind() {
+		$this->pointer = 0;
+	}
+
+	public function valid() {
+		return isset($this->data[$this->pointer]);
+	}
+
+	private function resourceToData($image) {
 		$imageData = [];
 		for($x = 0; $x < imagesx($image); $x ++) {
 			$imageData[$x] = [];
 			for($y = 0; $y < imagesy($image); $y ++) {
-				if(imagecolorat($image, $x, $y) != $filter) {
-					$imageData[$x][$y] = imagecolorat($image, $x, $y);
-				}
+				$imageData[$x][$y] = imagecolorat($image, $x, $y);
 			}
 		}
 		return $imageData;
