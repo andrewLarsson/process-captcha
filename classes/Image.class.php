@@ -4,10 +4,10 @@ class Image implements ArrayAccess{
 	private $resource;
 	private $data;
 
-	function __construct($path) {
+	function __construct($path, $filter = NULL) {
 		$this->path = $path;
 		$this->resource = imagecreatefrompng($this->path);
-		$this->data = resourceToData($this->resource);
+		$this->data = resourceToData($this->resource, $filter);
 	}
 	
 	public function offsetSet($offset, $value) {
@@ -30,12 +30,14 @@ class Image implements ArrayAccess{
 		);
 	}
 
-	private function resourceToData($image) {
+	private function resourceToData($image, $filter) {
 		$imageData = [];
 		for($x = 0; $x < imagesx($image); $x ++) {
 			$imageData[$x] = [];
 			for($y = 0; $y < imagesy($image); $y ++) {
-				$imageData[$x][$y] = imagecolorat($image, $x, $y);
+				if(imagecolorat($image, $x, $y) != $filter) {
+					$imageData[$x][$y] = imagecolorat($image, $x, $y);
+				}
 			}
 		}
 		return $imageData;
